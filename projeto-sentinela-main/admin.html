@@ -1,0 +1,169 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Cadastro de Usuários</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" style="text-decoration: none; color: #3498db; font-size: 14px; display: inline-block;">
+            Voltar para o Login
+        </a>
+
+        <h2>Cadastrar Usuário</h2>
+
+        <form id="formUsuario">
+            <input
+                type="text"
+                id="usuario"
+                placeholder="Nome de Usuário (Login)"
+                autocomplete="username"
+                required
+            >
+
+            <input
+                type="password"
+                id="senha"
+                placeholder="Senha"
+                autocomplete="new-password"
+                required
+            >
+
+            <select id="tipo" required>
+                <option value="">Selecione o tipo de usuário</option>
+                <option value="atendimento">Atendimento</option>
+                <option value="triagem">Triagem</option>
+                <option value="medico">Médico</option>
+            </select>
+
+            <button type="submit" id="btnCadastrar">
+                Cadastrar Usuário
+            </button>
+        </form>
+
+        <hr style="margin: 25px 0; border: none; border-top: 1px solid #ccc;">
+
+        <h3>Usuários Cadastrados</h3>
+        <div id="listaUsuarios">Carregando usuários...</div>
+    </div>
+
+    <script>
+        const formUsuario = document.getElementById('formUsuario');
+        const listaUsuarios = document.getElementById('listaUsuarios');
+        const btnCadastrar = document.getElementById('btnCadastrar');
+
+        // Cadastrar usuário
+        formUsuario.addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const usuario = document.getElementById('usuario').value.trim();
+            const senha = document.getElementById('senha').value;
+            const tipo = document.getElementById('tipo').value;
+
+            if (!usuario || !senha || !tipo) {
+                alert('Preencha todos os campos.');
+                return;
+            }
+
+            btnCadastrar.disabled = true;
+            btnCadastrar.textContent = 'Cadastrando...';
+
+            try {
+                const res = await fetch('/usuarios', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ usuario, senha, tipo })
+                });
+
+                const dados = await res.json().catch(() => ({}));
+
+                if (!res.ok || dados.erro || dados.error) {
+                    throw new Error(
+                        dados.erro ||
+                        dados.error ||
+                        `Erro ao cadastrar. Código HTTP: ${res.status}`
+                    );
+                }
+
+                alert('Usuário cadastrado com sucesso!');
+                formUsuario.reset();
+
+                await carregarUsuarios();
+
+            } catch (erro) {
+                console.error('Erro ao cadastrar usuário:', erro);
+
+                alert(
+                    'Não foi possível cadastrar o usuário.\n' +
+                    erro.message +
+                    '\n\nVerifique se a API está funcionando.'
+                );
+            } finally {
+                btnCadastrar.disabled = false;
+                btnCadastrar.textContent = 'Cadastrar Usuário';
+            }
+        });
+
+        // Listar usuários cadastrados
+        async function carregarUsuarios() {
+            try {
+                const res = await fetch('/usuarios');
+
+                if (!res.ok) {
+                    throw new Error(`Erro HTTP ${res.status}`);
+                }
+
+                const usuarios = await res.json();
+
+                if (!Array.isArray(usuarios)) {
+                    throw new Error('A API não retornou uma lista de usuários.');
+                }
+
+                listaUsuarios.replaceChildren();
+
+                if (usuarios.length === 0) {
+                    listaUsuarios.textContent = 'Nenhum usuário cadastrado.';
+                    return;
+                }
+
+                usuarios.forEach(function (u) {
+                    const card = document.createElement('div');
+                    card.className = 'card';
+
+                    const nome = document.createElement('b');
+                    nome.textContent = 'Usuário: ';
+
+                    const setor = document.createElement('b');
+                    setor.textContent = 'Setor: ';
+
+                    card.appendChild(nome);
+                    card.appendChild(
+                        document.createTextNode(u.usuario || '')
+                    );
+
+                    card.appendChild(document.createElement('br'));
+                    card.appendChild(setor);
+                    card.appendChild(
+                        document.createTextNode(u.tipo || '')
+                    );
+
+                    listaUsuarios.appendChild(card);
+                });
+
+            } catch (erro) {
+                console.error('Erro ao carregar usuários:', erro);
+                listaUsuarios.textContent =
+                    'Não foi possível carregar os usuários. Verifique a API.';
+            }
+        }
+
+        // Carregar a lista ao abrir a página
+        carregarUsuarios();
+    </script>
+</body>
+</html>

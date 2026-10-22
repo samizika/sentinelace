@@ -1,0 +1,717 @@
+/* =====================================================
+   NOCTIS — INSTITUTO MÉDICO NOTURNO
+   Identidade visual: Gothic Medical / Dark Luxury
+   ===================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+    --bg-main: #100d12;
+    --bg-panel: #1b1119;
+    --bg-card: #241721;
+    --bg-input: #140f16;
+
+    --blood: #8e2436;
+    --blood-light: #b53a4d;
+    --blood-dark: #591725;
+
+    --gold: #b89a62;
+    --gold-soft: #756044;
+
+    --text-main: #e9e0d5;
+    --text-muted: #a49aa5;
+
+    --border: rgba(184, 154, 98, 0.25);
+    --border-strong: rgba(184, 154, 98, 0.55);
+
+    --success: #759b83;
+    --warning: #c6a15d;
+    --danger: #c24b59;
+
+    --shadow: 0 18px 45px rgba(0, 0, 0, 0.35);
+
+    --radius: 10px;
+    --transition: 0.25s ease;
+}
+
+/* ================= BASE ================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    padding: 35px 20px;
+
+    background:
+        radial-gradient(
+            ellipse at top,
+            rgba(91, 24, 44, 0.20),
+            transparent 55%
+        ),
+        var(--bg-main);
+
+    color: var(--text-main);
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: -1;
+
+    background:
+        radial-gradient(
+            circle at 90% 90%,
+            rgba(142, 36, 54, 0.08),
+            transparent 35%
+        );
+}
+
+/* ================= TIPOGRAFIA ================= */
+
+h1,
+h2,
+h3,
+h4 {
+    font-family: 'Cinzel', Georgia, serif;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--text-main);
+}
+
+h1 {
+    font-size: clamp(25px, 3vw, 36px);
+}
+
+h2 {
+    font-size: clamp(21px, 2.5vw, 28px);
+    margin-top: 0;
+}
+
+h3 {
+    font-size: 18px;
+}
+
+p {
+    color: var(--text-muted);
+}
+
+b,
+strong {
+    color: var(--gold);
+}
+
+hr {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 28px 0;
+}
+
+/* ================= CONTAINER ================= */
+
+.container {
+    width: min(100%, 850px);
+    margin: 0 auto;
+    padding: 35px;
+
+    background: linear-gradient(
+        145deg,
+        rgba(36, 23, 33, 0.98),
+        rgba(22, 15, 23, 0.98)
+    );
+
+    border: 1px solid var(--border);
+    border-top: 2px solid var(--gold-soft);
+    border-radius: var(--radius);
+
+    box-shadow: var(--shadow);
+    position: relative;
+}
+
+.container > h2:first-child {
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 25px;
+}
+
+/* ================= LOGO ================= */
+
+.logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 22px;
+}
+
+.logo {
+    width: 115px;
+    height: 115px;
+    object-fit: contain;
+
+    filter: drop-shadow(0 0 15px rgba(142, 36, 54, 0.25));
+}
+
+.logo-container img {
+    max-width: 100%;
+}
+
+/* ================= LOGIN ================= */
+
+.login-page {
+    min-height: calc(100vh - 70px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-page .container {
+    width: min(100%, 440px);
+    padding: 40px;
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.login-header h1 {
+    font-size: clamp(22px, 4vw, 29px);
+    margin-bottom: 8px;
+}
+
+.login-header p {
+    font-size: 13px;
+    letter-spacing: 0.04em;
+}
+
+.login-footer {
+    text-align: center;
+    margin-top: 28px;
+    padding-top: 18px;
+    border-top: 1px solid var(--border);
+
+    color: var(--text-muted);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+/* ================= CAMPOS ================= */
+
+.campo {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    color: var(--gold);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    margin-bottom: 8px;
+}
+
+input,
+select,
+textarea {
+    display: block;
+    width: 100%;
+    min-width: 0;
+
+    margin: 10px 0;
+    padding: 13px 15px;
+
+    background: var(--bg-input);
+    color: var(--text-main);
+
+    border: 1px solid var(--border);
+    border-radius: 6px;
+
+    font: inherit;
+    outline: none;
+
+    transition:
+        border-color var(--transition),
+        box-shadow var(--transition),
+        background var(--transition);
+}
+
+.campo input,
+.campo select,
+.campo textarea {
+    margin-top: 0;
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: #766b78;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(184, 154, 98, 0.10);
+    background: #19111a;
+}
+
+input[readonly] {
+    color: var(--gold);
+    background: #21151e;
+    cursor: default;
+}
+
+input[type="file"] {
+    padding: 10px;
+    font-size: 12px;
+}
+
+input[type="file"]::file-selector-button {
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 8px 12px;
+    margin-right: 12px;
+
+    background: var(--blood-dark);
+    color: var(--text-main);
+    cursor: pointer;
+}
+
+select {
+    cursor: pointer;
+}
+
+select option {
+    background: var(--bg-panel);
+    color: var(--text-main);
+}
+
+textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+/* ================= BOTÕES ================= */
+
+button,
+.btn-tv,
+.btn-abrir-tv {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    padding: 12px 18px;
+
+    background: linear-gradient(
+        135deg,
+        var(--blood),
+        var(--blood-dark)
+    );
+
+    color: #fff5ee;
+    border: 1px solid rgba(184, 154, 98, 0.35);
+    border-radius: 6px;
+
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+
+    cursor: pointer;
+    transition:
+        transform var(--transition),
+        background var(--transition),
+        border-color var(--transition),
+        box-shadow var(--transition);
+}
+
+button:hover,
+.btn-tv:hover,
+.btn-abrir-tv:hover {
+    background: linear-gradient(
+        135deg,
+        var(--blood-light),
+        var(--blood)
+    );
+
+    border-color: var(--gold);
+    box-shadow: 0 5px 18px rgba(142, 36, 54, 0.20);
+    transform: translateY(-1px);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+button:disabled {
+    opacity: 0.55;
+    cursor: wait;
+    transform: none;
+    box-shadow: none;
+}
+
+form button {
+    width: 100%;
+    margin-top: 8px;
+}
+
+.login-page button {
+    min-height: 46px;
+    margin-top: 12px;
+}
+
+/* ================= LINKS ================= */
+
+a {
+    color: var(--gold);
+    transition: color var(--transition);
+}
+
+a:hover {
+    color: #e1c58e;
+}
+
+/* ================= CARDS ================= */
+
+.card {
+    padding: 22px;
+    margin: 16px 0;
+
+    background: linear-gradient(
+        135deg,
+        var(--bg-card),
+        #191119
+    );
+
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--blood);
+    border-radius: 8px;
+
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.14);
+
+    transition:
+        border-color var(--transition),
+        transform var(--transition);
+}
+
+.card:hover {
+    border-color: var(--border-strong);
+    transform: translateY(-2px);
+}
+
+.card h3 {
+    margin-top: 0;
+    color: var(--text-main);
+}
+
+.card p {
+    margin: 10px 0;
+    overflow-wrap: anywhere;
+}
+
+#listaUsuarios,
+#listaMedicacoes,
+#triagens {
+    margin-top: 18px;
+}
+
+#listaUsuarios:empty::after,
+#listaMedicacoes:empty::after,
+#triagens:empty::after {
+    content: "Nenhum registro disponível.";
+    display: block;
+    padding: 20px;
+    color: var(--text-muted);
+    text-align: center;
+}
+
+/* ================= FILA DE PACIENTES ================= */
+
+.pacientes-fila {
+    margin-bottom: 30px;
+    padding: 20px;
+
+    background: rgba(16, 13, 18, 0.55);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+}
+
+.pacientes-fila h3 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-top: 0;
+}
+
+.pacientes-fila h3 span {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    color: var(--text-muted);
+}
+
+.fila-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+
+    padding: 15px;
+    margin-bottom: 10px;
+
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+}
+
+.fila-item strong {
+    font-size: 14px;
+}
+
+.fila-item small {
+    color: var(--text-muted);
+    font-size: 11px;
+}
+
+/* ================= CONSULTÓRIO ================= */
+
+.consultorio-input {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+
+    margin-bottom: 22px;
+    padding: 16px;
+
+    background: rgba(16, 13, 18, 0.7);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+}
+
+.consultorio-input label {
+    margin: 0;
+}
+
+.consultorio-input input {
+    width: 75px;
+    margin: 0;
+
+    text-align: center;
+    font-size: 17px;
+    font-weight: 700;
+}
+
+.consultorio-input span {
+    color: var(--text-muted) !important;
+    font-size: 12px !important;
+}
+
+/* ================= CLASSIFICAÇÃO DE RISCO ================= */
+
+.vermelho {
+    color: #ff8290;
+}
+
+.amarelo {
+    color: #e2c078;
+}
+
+.verde {
+    color: #8ec5a0;
+}
+
+#resultado {
+    margin: 15px 0;
+    padding: 12px 15px;
+
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+
+    font-weight: 700;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+#resultado:empty {
+    display: none;
+}
+
+#resultado.vermelho {
+    background: rgba(194, 75, 89, 0.12);
+    border-color: rgba(194, 75, 89, 0.55);
+}
+
+#resultado.amarelo {
+    background: rgba(198, 161, 93, 0.10);
+    border-color: rgba(198, 161, 93, 0.45);
+}
+
+#resultado.verde {
+    background: rgba(117, 155, 131, 0.10);
+    border-color: rgba(117, 155, 131, 0.45);
+}
+
+/* ================= MENSAGENS ================= */
+
+#mensagem {
+    min-height: 20px;
+    font-size: 12px;
+    text-align: center;
+}
+
+#mensagem.erro {
+    color: #ff8995;
+}
+
+#mensagem.sucesso {
+    color: #8ec5a0;
+}
+
+/* ================= ESTADOS VAZIOS ================= */
+
+#listaUsuarios:has(> p),
+#listaMedicacoes:has(> p),
+#triagens:has(> p),
+#fila-pacientes:has(> p) {
+    color: var(--text-muted);
+    text-align: center;
+}
+
+/* ================= ACESSIBILIDADE ================= */
+
+:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 3px;
+}
+
+::selection {
+    background: var(--blood);
+    color: white;
+}
+
+/* ================= RESPONSIVIDADE ================= */
+
+@media (max-width: 600px) {
+    body {
+        padding: 16px 10px;
+    }
+
+    .container {
+        padding: 22px 16px;
+    }
+
+    .login-page {
+        min-height: calc(100vh - 32px);
+    }
+
+    .login-page .container {
+        padding: 28px 20px;
+    }
+
+    .logo {
+        width: 90px;
+        height: 90px;
+    }
+
+    .fila-item {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .fila-item button {
+        width: 100%;
+    }
+
+    .consultorio-input {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .consultorio-input input {
+        width: 100%;
+    }
+
+    .pacientes-fila h3 {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}
+
+/* Identidade institucional NOCTIS */
+
+.institution-label {
+    color: var(--gold);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    line-height: 1.8;
+}
+
+.login-header h1 {
+    font-size: clamp(35px, 6vw, 48px);
+    letter-spacing: 0.16em;
+    margin: 12px 0 0;
+
+    color: var(--text-main);
+    text-shadow: 0 0 25px rgba(142, 36, 54, 0.2);
+}
+
+.institution-subtitle {
+    color: var(--gold);
+    font-family: 'Cinzel', Georgia, serif;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    margin-top: 0;
+}
+
+.gothic-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin: 22px 0;
+    color: var(--gold);
+}
+
+.gothic-divider::before,
+.gothic-divider::after {
+    content: "";
+    width: 55px;
+    height: 1px;
+    background: var(--border-strong);
+}
+
+.login-footer span {
+    font-family: 'Cinzel', Georgia, serif;
+    font-size: 13px;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+}
+
+.login-footer p {
+    font-size: 11px;
+    margin: 5px 0;
+}
+
+.login-footer small {
+    font-size: 9px;
+    letter-spacing: 0.07em;
+    color: var(--text-muted);
+}

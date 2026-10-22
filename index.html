@@ -1,0 +1,182 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Sistema Hospitalar</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <main class="login-page">
+
+        <section class="container">
+
+           <div class="logo-container">
+    <img
+        src="vampiro2.png"
+        alt="Emblema do Instituto Noctis"
+        class="logo"
+    >
+</div>
+
+<header class="login-header">
+    <p class="institution-label">INSTITUIÇÃO MÉDICA • ACESSO RESTRITO</p>
+
+    <h1>NOCTIS</h1>
+
+    <p class="institution-subtitle">
+        Instituto Médico Noturno
+    </p>
+
+    <div class="gothic-divider">
+        <span>✦</span>
+    </div>
+
+    <p>Acesse suas credenciais para continuar.</p>
+</header>
+
+            <form id="formLogin">
+
+                <div class="campo">
+                    <label for="usuario">Usuário</label>
+                    <input
+                        id="usuario"
+                        name="usuario"
+                        type="text"
+                        placeholder="Digite seu usuário"
+                        autocomplete="username"
+                        required
+                    >
+                </div>
+
+                <div class="campo">
+                    <label for="senha">Senha</label>
+                    <input
+                        id="senha"
+                        name="senha"
+                        type="password"
+                        placeholder="Digite sua senha"
+                        autocomplete="current-password"
+                        required
+                    >
+                </div>
+
+                <button id="botaoEntrar" type="submit">
+                    Entrar
+                </button>
+
+                <p id="mensagem" role="status" aria-live="polite"></p>
+
+            </form>
+
+            <footer class="login-footer">
+    <span>NOCTIS</span>
+    <p>Protocolo de acesso institucional</p>
+    <small>USO EXCLUSIVO DE PESSOAL AUTORIZADO</small>
+</footer>
+
+        </section>
+
+    </main>
+
+    <script>
+        const formLogin = document.getElementById("formLogin");
+        const botaoEntrar = document.getElementById("botaoEntrar");
+        const mensagem = document.getElementById("mensagem");
+
+        function mostrarMensagem(texto, tipo = "erro") {
+            mensagem.textContent = texto;
+            mensagem.className = tipo;
+        }
+
+        formLogin.addEventListener("submit", async function(event) {
+            event.preventDefault();
+
+            const usuario = document.getElementById("usuario").value.trim();
+            const senha = document.getElementById("senha").value;
+
+            if (!usuario || !senha) {
+                mostrarMensagem("Preencha o usuário e a senha.");
+                return;
+            }
+
+            botaoEntrar.disabled = true;
+            botaoEntrar.textContent = "Entrando...";
+            mostrarMensagem("");
+
+            try {
+                const resposta = await fetch("http://localhost:3000/login", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ usuario, senha })
+                });
+
+                let dados;
+
+                try {
+                    dados = await resposta.json();
+                } catch {
+                    throw new Error("O servidor retornou uma resposta inválida.");
+                }
+
+                if (!resposta.ok) {
+                    throw new Error(
+                        dados.mensagem || "Não foi possível realizar o login."
+                    );
+                }
+
+                const paginas = {
+                    triagem: "triagem.html",
+                    medico: "medico.html",
+                    atendimento: "atendimento.html",
+                    admin: "admin.html",
+                    administrador: "admin.html"
+                };
+
+                const destino = paginas[dados.tipo];
+
+                if (!destino) {
+                    mostrarMensagem("Usuário ou senha inválidos.");
+                    return;
+                }
+
+                window.location.href = destino;
+
+            } catch (erro) {
+                console.error("Erro no login:", erro);
+
+                mostrarMensagem(
+                    erro.message.includes("Failed to fetch")
+                        ? "Não foi possível conectar ao servidor. Verifique se ele está ligado."
+                        : erro.message
+                );
+
+            } finally {
+                botaoEntrar.disabled = false;
+                botaoEntrar.textContent = "Entrar";
+            }
+        });
+
+        // Atalho visual para abrir a página administrativa.
+        // A autorização real deve ser validada pelo servidor.
+        document.addEventListener("keydown", function(event) {
+            if (
+                event.ctrlKey &&
+                event.altKey &&
+                event.key.toLowerCase() === "a"
+            ) {
+                event.preventDefault();
+                window.location.href = "admin.html";
+            }
+        });
+    </script>
+
+</body>
+</html>

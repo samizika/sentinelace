@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>NOCTIS | Painel de Chamadas</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap');
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    :root {
+        --bg: #100d12;
+        --panel: #1b1119;
+        --card: #241721;
+        --wine: #8e2436;
+        --gold: #b89a62;
+        --text: #e9e0d5;
+        --muted: #a49aa5;
+        --border: rgba(184, 154, 98, 0.3);
+    }
+
+    body {
+        min-height: 100vh;
+        padding: 4vh 3vw;
+        overflow: hidden;
+
+        background:
+            radial-gradient(
+                ellipse at top right,
+                rgba(142, 36, 54, 0.2),
+                transparent 50%
+            ),
+            var(--bg);
+
+        color: var(--text);
+        font-family: 'Inter', sans-serif;
+    }
+
+    .tv-container {
+        display: flex;
+        width: 100%;
+        height: 92vh;
+        gap: 20px;
+    }
+
+    .left-panel {
+        display: flex;
+        flex-direction: column;
+        width: 34%;
+        gap: 20px;
+    }
+
+    .right-panel {
+        display: flex;
+        flex-direction: column;
+        width: 66%;
+        gap: 20px;
+    }
+
+    .box {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        padding: 24px;
+        overflow: hidden;
+
+        background: linear-gradient(
+            145deg,
+            rgba(36, 23, 33, 0.98),
+            rgba(22, 15, 23, 0.98)
+        );
+
+        border: 1px solid var(--border);
+        border-radius: 10px;
+
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+    }
+
+    .box::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(
+            90deg,
+            transparent,
+            var(--wine),
+            var(--gold),
+            transparent
+        );
+    }
+
+    .box-title {
+        margin-bottom: 18px;
+
+        color: var(--gold);
+        font-family: 'Cinzel', Georgia, serif;
+        font-size: clamp(11px, 1.2vw, 18px);
+        font-weight: 600;
+        letter-spacing: 0.16em;
+        text-align: center;
+    }
+
+    /* LOCAL DE ATENDIMENTO */
+
+    .local-box {
+        flex: 1;
+    }
+
+    .local-number {
+        color: var(--text);
+        font-family: 'Cinzel', Georgia, serif;
+        font-size: clamp(65px, 9vw, 140px);
+        font-weight: 700;
+        line-height: 1.1;
+
+        text-shadow: 0 0 35px rgba(142, 36, 54, 0.4);
+    }
+
+    .local-type {
+        margin-top: 12px;
+        color: var(--muted);
+        font-size: 12px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+    }
+
+    /* HISTÓRICO DE CHAMADAS */
+
+    .history-box {
+        flex: 1.1;
+        justify-content: flex-start;
+        align-items: stretch;
+    }
+
+    .history-box .box-title {
+        align-self: center;
+        font-size: clamp(11px, 1vw, 15px);
+    }
+
+    #history-list {
+        width: 100%;
+        list-style: none;
+        text-align: left;
+    }
+
+    #history-list li {
+        margin-bottom: 10px;
+        padding: 12px 10px;
+
+        background: rgba(16, 13, 18, 0.65);
+        border: 1px solid rgba(184, 154, 98, 0.12);
+        border-left: 2px solid var(--wine);
+        border-radius: 4px;
+
+        color: var(--text);
+        font-size: clamp(10px, 1vw, 15px);
+        font-weight: 500;
+        overflow-wrap: anywhere;
+    }
+
+    /* CHAMADA ATUAL */
+
+    .patient-box {
+        flex: 3;
+        gap: 18px;
+    }
+
+    .patient-box .box-title {
+        margin-bottom: 5px;
+    }
+
+    .patient-name {
+        max-width: 100%;
+        color: var(--text);
+
+        font-family: 'Cinzel', Georgia, serif;
+        font-size: clamp(32px, 5vw, 82px);
+        font-weight: 700;
+        line-height: 1.25;
+
+        text-align: center;
+        overflow-wrap: anywhere;
+
+        text-shadow: 0 0 35px rgba(142, 36, 54, 0.25);
+    }
+
+    /* IDENTIDADE INSTITUCIONAL */
+
+    .logo-box {
+        flex: 1;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        gap: 25px;
+    }
+
+    .logo-box img {
+        width: clamp(55px, 8vw, 110px);
+        max-height: 100px;
+        object-fit: contain;
+
+        filter: drop-shadow(
+            0 0 12px rgba(142, 36, 54, 0.3)
+        );
+    }
+
+    .logo-text {
+        color: var(--text);
+        font-family: 'Cinzel', Georgia, serif;
+        font-size: clamp(18px, 2.5vw, 36px);
+        font-weight: 700;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+    }
+
+    /* NOVA CHAMADA */
+
+    @keyframes flash {
+        0%, 100% {
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+            border-color: var(--border);
+        }
+
+        50% {
+            box-shadow: 0 0 40px rgba(142, 36, 54, 0.55);
+            border-color: var(--wine);
+        }
+    }
+
+    .flash {
+        animation: flash 0.7s ease-in-out 3;
+    }
+
+    /* TELAS MENORES */
+
+    @media (max-width: 700px) {
+        body {
+            padding: 2vh 2vw;
+        }
+
+        .tv-container {
+            gap: 10px;
+            height: 96vh;
+        }
+
+        .left-panel {
+            width: 35%;
+            gap: 10px;
+        }
+
+        .right-panel {
+            width: 65%;
+            gap: 10px;
+        }
+
+        .box {
+            padding: 12px 8px;
+        }
+
+        .logo-box {
+            gap: 8px;
+            flex-direction: column;
+        }
+
+        .logo-box img {
+            max-height: 55px;
+        }
+
+        .logo-text {
+            font-size: clamp(10px, 2vw, 16px);
+        }
+    }
+</style>
+</head>
+<body>
+
+<!-- Estrutura da tela da TV criada para exibir o local e o nome do paciente chamado -->
+<div class="tv-container">
+  <div class="left-panel">
+    <div class="box local-box">
+      <div class="box-title" id="local-tipo">GUICHÊ</div>
+      <div class="local-number" id="local-numero">--</div>
+    </div>
+    <div class="box history-box">
+      <div class="box-title">ÚLTIMAS CHAMADAS</div>
+      <ul id="history-list"></ul>
+    </div>
+  </div>
+  <div class="right-panel">
+    <div class="box patient-box">
+      <div class="box-title">PACIENTE</div>
+      <div class="patient-name" id="patient-name">AGUARDANDO...</div>
+    </div>
+   <div class="box logo-box">
+    <img src="vampiro2.png" alt="Emblema do NOCTIS">
+
+    <div class="logo-text">
+        NOCTIS
+    </div>
+</div>
+  </div>
+</div>
+
+<script>
+let ultimoId = null;
+
+// Função criada para buscar a chamada atual e o histórico da TV em tempo real.
+function atualizar() {
+  fetch("/tv/chamada")
+    .then(r => r.json())
+    .then(data => {
+      const chamada = data.chamada;
+      const historico = data.historico || [];
+
+      if (chamada) {
+        document.getElementById("local-tipo").innerText = chamada.localTipo || "GUICHÊ";
+        document.getElementById("local-numero").innerText = chamada.localNumero || "--";
+        document.getElementById("patient-name").innerText = chamada.paciente || "AGUARDANDO...";
+
+        // Flash visual quando há chamada nova
+        if (chamada.id !== ultimoId) {
+          ultimoId = chamada.id;
+          const patientBox = document.querySelector(".patient-box");
+          patientBox.classList.remove("flash");
+          void patientBox.offsetWidth; // reflow
+          patientBox.classList.add("flash");
+        }
+      }
+
+      // Histórico
+      const list = document.getElementById("history-list");
+      list.innerHTML = "";
+      historico.slice(0, 4).forEach(h => {
+        const li = document.createElement("li");
+        const tipo = h.localTipo ? h.localTipo.substring(0,4) : "GUIC";
+        li.innerText = `${tipo}. ${h.localNumero} - ${h.paciente}`;
+        list.appendChild(li);
+      });
+    })
+    .catch(err => console.log("Erro ao buscar chamada:", err));
+}
+
+// Polling a cada 2 segundos
+atualizar();
+setInterval(atualizar, 2000);
+</script>
+
+</body>
+</html>
